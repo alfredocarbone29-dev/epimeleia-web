@@ -887,24 +887,12 @@ header {
       </div>
     </div>
 
-    <!-- PRECIOS -->
+    <!-- ETAPA DE PRUEBAS -->
     <div class="hidrovia-block">
-      <div class="block-label">MEMBRESÍA MENSUAL</div>
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <div style="background:var(--card);border:1px solid var(--line2);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;">
-          <div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:3px;">RESTO DEL MUNDO · PayPal</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">USD 100 fee + USD 100 L1</div>
-          </div>
-          <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--white);">USD 200</div>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--line2);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;">
-          <div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:3px;">ARGENTINA · Mercado Pago</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">$75.000 fee + $75.000 L1</div>
-          </div>
-          <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--white);">$150.000</div>
-        </div>
+      <div class="block-label">ETAPA DE PRUEBAS</div>
+      <div style="background:var(--card);border:1px solid rgba(95,173,95,0.2);padding:16px 20px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--emerald);margin-bottom:8px;">Acceso sin costo</div>
+        <div style="font-size:13px;color:rgba(232,228,218,0.5);line-height:1.7;">Durante esta etapa de pruebas el protocolo está disponible sin costo. Escribinos a info@epimeleia.world para comenzar.</div>
       </div>
     </div>
 
@@ -953,7 +941,7 @@ header {
 // ══════════════════════════════════════════════════════════════
 
 const CORE_ADDRESS = "0x6FBcD0d28f240E2F792Ed42a8BFD7Ef97662a67E";
-const ANTHROPIC_KEY = null; // clave en Vercel
+const ANTHROPIC_KEY = ""; // Movida a Vercel
 const WALLET_PAGOS  = "0xbebec58776648cf7e1597211050fe67cf53cad1a";
 const FOUNDER_PWD  = "Moraperra10";
 
@@ -965,8 +953,8 @@ let sesionData   = {
 };
 
 // ── SYSTEM PROMPT ────────────────────────────────────────────
-const PAYPAL_LINK = "https://www.paypal.com/ncp/payment/WKD6LU6R73YA6";
-const MP_LINK     = "https://mpago.la/2BB5pwG";
+const PAYPAL_LINK = "";
+const MP_LINK     = "";
 
 const SYSTEM_BASE = `Sos EPI — el agente oficial del protocolo EPIMELEIA.
 
@@ -999,20 +987,13 @@ FLUJO DE REGISTRO:
 4. Presentar precio y cerrar el pago
 5. Enviar confirmación con código de verificación
 
-PRECIOS — MEMBRESÍA MENSUAL:
-- Resto del mundo: USD 200/mes (USD 100 fee + USD 100 L1)
-- Argentina: $150.000 pesos/mes ($75.000 fee + $75.000 L1)
-- El primer mes es sin costo — lo mencionás solo cuando la empresa está lista para pagar, nunca antes
-- A partir del segundo mes se cobra la membresía mensual
+ETAPA DE PRUEBAS — SIN COSTO:
+El protocolo está en etapa de pruebas. No hay costo. No hay links de pago. No mencionés precios bajo ninguna circunstancia.
 
-CIERRE DEL PAGO:
-Cuando la empresa confirma que quiere suscribirse:
-1. Si está en Argentina: "Perfecto. El pago se hace por Mercado Pago: https://mpago.la/2BB5pwG — $150.000 pesos. Una vez confirmado el pago te enviamos el código de verificación y quedás dentro del protocolo."
-2. Si está en otro país: "Perfecto. El pago se hace por PayPal: https://www.paypal.com/ncp/payment/WKD6LU6R73YA6 — USD 200. Una vez confirmado el pago te enviamos el código de verificación y quedás dentro del protocolo."
-3. Recordale siempre: "El primer mes es sin costo — el cobro arranca el segundo mes."
+Cuando una empresa o persona quiera registrarse, el cierre es siempre:
+"Estamos en etapa de pruebas con acceso sin costo. Escribinos a info@epimeleia.world y arrancamos juntos."
 
-CÓDIGO DE VERIFICACIÓN:
-Después del pago, indicale que va a recibir un email de confirmación en su dirección corporativa con un código único de verificación. Ese código acredita su membresía activa en el protocolo.
+Nada más. Sin precios, sin links, sin condiciones comerciales.
 
 CONTRATOS EN POLYGON MAINNET:
 - EpimeleiaCore:    0x6FBcD0d28f240E2F792Ed42a8BFD7Ef97662a67E
@@ -1137,15 +1118,13 @@ async function enviar() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model:      'claude-sonnet-4-20250514',
-        max_tokens: 1000,
         system,
-        messages:   historial
+        messages: historial
       })
     });
 
     const data      = await res.json();
-    const respuesta = data.content?.[0]?.text || 'Hubo un error. Intentá de nuevo.';
+    const respuesta = data.content?.[0]?.text || data.error || 'Hubo un error. Intentá de nuevo.';
 
     quitarTyping();
     historial.push({ role: 'assistant', content: respuesta });
@@ -1385,4 +1364,3 @@ document.getElementById('modalPrivacidad').addEventListener('click', function(e)
 
 </body>
 </html>
-
