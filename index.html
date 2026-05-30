@@ -876,11 +876,45 @@ header {
       </div>
     </div>
 
+    <!-- CÓMO FUNCIONA -->
+    <div class="hidrovia-block">
+      <div class="block-label">CÓMO FUNCIONA EPIMELEIA</div>
+      <div style="font-size:14px;color:rgba(232,228,218,0.6);line-height:1.85;padding:4px 0;">
+        <p style="margin-bottom:12px;">Epimeleia es un protocolo que <strong style="color:rgba(232,228,218,0.85);font-weight:400;">toma la foto de hoy y la compara en el tiempo</strong>. Te suscribís y el mismo sistema, tras una serie de datos muy sencillos, lo hace todo por vos.</p>
+        <p style="margin-bottom:12px;">Divide el año en <strong style="color:rgba(232,228,218,0.85);font-weight:400;">4 trimestres — Q1/4</strong> — imitando los balances corporativos. Luego le pasa la información a un satélite que va a controlar tu área entre 6 y 7 veces por trimestre. Con solo dos resultados positivos dentro de una ventana de días, tenemos la muestra para certificar.</p>
+        <p style="margin-bottom:12px;">Todo esto lo podés hacer con lo que Epimeleia llama <strong style="color:rgba(232,228,218,0.85);font-weight:400;">PV-L1</strong> — muy sofisticado y el recomendado. También tenés opciones L2 y L3 que se activan si requerís mayor resolución.</p>
+        <p style="margin-bottom:0;"><strong style="color:rgba(232,228,218,0.85);font-weight:400;">Más certificaciones significan más credibilidad</strong> — empresarial y reputacional — ante competencia, gobiernos, bancos e inversores. Si aún tenés dudas, nuestro agente <em style="color:var(--emerald);">EPI</em> las resuelve.</p>
+      </div>
+    </div>
+
+    <!-- PRECIOS -->
+    <div class="hidrovia-block">
+      <div class="block-label">MEMBRESÍA MENSUAL</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:var(--card);border:1px solid var(--line2);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:3px;">RESTO DEL MUNDO · PayPal</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">USD 100 fee + USD 100 L1</div>
+          </div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--white);">USD 200</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--line2);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:3px;">ARGENTINA · Mercado Pago</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">$75.000 fee + $75.000 L1</div>
+          </div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--white);">$150.000</div>
+        </div>
+      </div>
+    </div>
+
     <div class="soul-footer">
       <div class="soul-footer-text">
         <a href="mailto:info@epimeleia.world">info@epimeleia.world</a> ·
         <a href="https://epimeleia.world">epimeleia.world</a><br>
-        Polygon Mainnet · 2026 · Código abierto · Sin publicidad
+        <span onclick="abrirModal('condiciones')" style="cursor:pointer;text-decoration:underline;">Condiciones de uso</span> ·
+        <span onclick="abrirModal('privacidad')" style="cursor:pointer;text-decoration:underline;">Privacidad</span><br>
+        Polygon Mainnet · 2026 · Sin publicidad
       </div>
     </div>
 
@@ -919,6 +953,8 @@ header {
 // ══════════════════════════════════════════════════════════════
 
 const CORE_ADDRESS = "0x6FBcD0d28f240E2F792Ed42a8BFD7Ef97662a67E";
+const ANTHROPIC_KEY = null; // clave movida a Vercel
+const WALLET_PAGOS  = "0xbebec58776648cf7e1597211050fe67cf53cad1a";
 const FOUNDER_PWD  = "Moraperra10";
 
 let modoFounder  = false;
@@ -929,7 +965,10 @@ let sesionData   = {
 };
 
 // ── SYSTEM PROMPT ────────────────────────────────────────────
-const SYSTEM_BASE = `Sos el agente oficial del protocolo EPIMELEIA.
+const PAYPAL_LINK = "https://www.paypal.com/ncp/payment/WKD6LU6R73YA6";
+const MP_LINK     = "https://mpago.la/2BB5pwG";
+
+const SYSTEM_BASE = `Sos EPI — el agente oficial del protocolo EPIMELEIA.
 
 QUÉ ES EPIMELEIA:
 Epimeleia es un archivo vivo del planeta. Registra la realidad de los recursos naturales estratégicos — desde un pequeño repositorio de agua hasta los glaciares, desde el nacimiento de un río en la montaña hasta su desembocadura en el océano. Certifica trimestralmente vía satélite y graba los datos en blockchain Polygon de forma permanente e inalterable. Sin intervención humana. Sin sesgo. Sin posibilidad de edición retroactiva.
@@ -938,23 +977,42 @@ No juzga. No sanciona. No premia. Registra.
 
 Epimeleia no distorsiona la realidad — al contrario, muestra la foto de hoy de todo lo referente a recursos estratégicos. Y la mejor foto de hoy existe para ser superada por la de mañana. El cuidado del planeta empieza por entender dónde estamos parados.
 
+CÓMO FUNCIONA (explicalo así cuando te pregunten):
+Epimeleia toma la foto de hoy y la compara en el tiempo. La empresa se suscribe y el sistema hace todo solo. Divide el año en 4 trimestres — Q1/4 — imitando los balances corporativos. Un satélite pasa entre 6 y 7 veces por las coordenadas del activo en una ventana de días. Con dos resultados positivos certificamos el trimestre. Todo automatizado. Los informes llegan al email corporativo al cierre de cada Q.
+
 A QUIÉN LE HABLÁS:
 Empresas de cualquier industria con impacto ambiental. Gobiernos. ONGs. Organizaciones internacionales. Inversores. Cualquier actor que entienda que sin el cuidado de los recursos naturales cada vez más finitos no habrá futuro.
 
 TU PERSONALIDAD:
+- Te llamás EPI
 - Español rioplatense natural, sin tecnicismos innecesarios
 - Profesional pero humano, nunca frío
 - Sos un solucionador — si alguien no tiene un dato, lo ayudás a conseguirlo
-- Si alguien no tiene las coordenadas, le preguntás el nombre del lugar y estimás vos
+- Si alguien no tiene las coordenadas, le preguntás el nombre del lugar y las estimás vos
 - Si no sabe el radio del área, lo estimás según el tipo de actividad
 - Nunca dejás a nadie sin poder avanzar por falta de información técnica
 
 FLUJO DE REGISTRO:
-1. Entender quién es la empresa/organización y su industria
+1. Entender quién es — empresa, gobierno, ONG — y su industria
 2. Registrar la empresa: razón social (opcional), industria, país, email corporativo, persona de contacto
-3. Registrar el primer activo: nombre del sitio, ubicación (ayudás con las coordenadas si no las tiene), tipo de actividad
-4. Determinar el fee según el perfil
-5. Guiar el cierre
+3. Registrar el primer activo: nombre del sitio, ubicación, tipo de actividad
+4. Presentar precio y cerrar el pago
+5. Enviar confirmación con código de verificación
+
+PRECIOS — MEMBRESÍA MENSUAL:
+- Resto del mundo: USD 200/mes (USD 100 fee + USD 100 L1)
+- Argentina: $150.000 pesos/mes ($75.000 fee + $75.000 L1)
+- El primer mes es sin costo — lo mencionás solo cuando la empresa está lista para pagar, nunca antes
+- A partir del segundo mes se cobra la membresía mensual
+
+CIERRE DEL PAGO:
+Cuando la empresa confirma que quiere suscribirse:
+1. Si está en Argentina: "Perfecto. El pago se hace por Mercado Pago: https://mpago.la/2BB5pwG — $150.000 pesos. Una vez confirmado el pago te enviamos el código de verificación y quedás dentro del protocolo."
+2. Si está en otro país: "Perfecto. El pago se hace por PayPal: https://www.paypal.com/ncp/payment/WKD6LU6R73YA6 — USD 200. Una vez confirmado el pago te enviamos el código de verificación y quedás dentro del protocolo."
+3. Recordale siempre: "El primer mes es sin costo — el cobro arranca el segundo mes."
+
+CÓDIGO DE VERIFICACIÓN:
+Después del pago, indicale que va a recibir un email de confirmación en su dirección corporativa con un código único de verificación. Ese código acredita su membresía activa en el protocolo.
 
 CONTRATOS EN POLYGON MAINNET:
 - EpimeleiaCore:    0x6FBcD0d28f240E2F792Ed42a8BFD7Ef97662a67E
@@ -962,40 +1020,21 @@ CONTRATOS EN POLYGON MAINNET:
 - EpimeleiaBilling: 0x9fdee5BE6c371D754df40e089d5C99b685B7Fa4c
 - EpimeleiaOracle:  0x23760006d3AC13632E65e863a263A06da60cbDEA
 
-MODELO COMERCIAL:
-Dos trimestres de bienvenida — USD 1.500 / trimestre o USD 500 / mes.
-Incluye registro + PV-L1 + certificaciones Q completas.
-A partir del tercer trimestre: valores de mercado según el perfil.
-
-Para determinar el fee a partir del tercer trimestre, evaluás:
-- Tamaño de la empresa (pequeña / mediana / grande / multinacional)
-- Cantidad de activos registrados
-- Industria y exposición regulatoria
-- Jurisdicción (empresas que reportan a reguladores internacionales pagan más)
-- Si cotizan en bolsa o tienen inversores institucionales
-- Si están en proceso de M&A o due diligence ambiental
-- Nivel de validación requerido (L1 / L2 / L3)
-
-Referencia de mercado (para contextualizar el valor, no para decirlo de entrada):
+REFERENCIA DE MERCADO (para contextualizar el valor cuando sea útil):
 - ISO 14001: USD 2.800–18.000 cada 3 años, solo en LATAM, sin prueba inalterable
 - Estudio hidrológico profesional: USD 50.000–300.000, una sola vez
 - Due diligence ambiental M&A: USD 25.000–150.000, una sola vez
 Epimeleia certifica 4 veces por año, de forma autónoma, con prueba que nadie puede tocar.
 
-RANGO ORIENTATIVO (a partir del tercer trimestre):
-- Empresa pequeña (1 activo): USD 800–1.200 / trimestre
-- Empresa mediana (2–5 activos): USD 1.500–3.000 / trimestre
-- Grande / multinacional: desde USD 5.000 / trimestre
-
 CONTACTO CON EL FOUNDER:
 Solo para gobiernos y entidades de alto perfil institucional.
-Cuando detectás ese perfil, decís que los vas a conectar directamente con el equipo de Epimeleia a info@epimeleia.world.
+Cuando detectás ese perfil, decís: "Para este caso los conectamos directamente con el equipo de Epimeleia. Escribinos a info@epimeleia.world"
 
 HUECOS DE OPACIDAD:
-Si la observación satelital no es posible (nubosidad >70%, pérdida de señal, saldo insuficiente) se registra un Hueco de Opacidad permanente con su causa. No es una penalización. Es la verdad grabada. Un hueco climático acreditado no afecta la reputación.
+Si la observación satelital no es posible (nubosidad mayor al 70%, pérdida de señal o saldo insuficiente) se registra un Hueco de Opacidad permanente con su causa. No es una penalización. Es la verdad grabada. Un hueco climático acreditado no afecta la reputación.
 
 SELLO DE EXCELENCIA:
-4 trimestres consecutivos certificados sin huecos. El contrato lo emite automáticamente con hash único inalterable. No se compra. Solo se gana.
+4 trimestres consecutivos certificados sin huecos. El contrato lo emite automáticamente con hash único inalterable en Polygon. No se compra. Solo se gana.
 
 LO QUE NO HACÉS:
 - No respondés preguntas fuera del universo Epimeleia
@@ -1094,7 +1133,7 @@ async function enviar() {
       ? `${SYSTEM_BASE}\n\nMODO FOUNDER ACTIVO. El founder se ha autenticado. Podés compartir toda la información de sesión.\n\nDatos de sesión:\n${JSON.stringify(sesionData, null, 2)}`
       : SYSTEM_BASE;
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1205,5 +1244,144 @@ function mensajeInicial() {
 cargarContador();
 mensajeInicial();
 </script>
+
+<!-- ══ MODALES CONDICIONES Y PRIVACIDAD ══ -->
+<style>
+.modal-terms-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(4,9,4,0.94);
+  z-index: 9500;
+  overflow-y: auto;
+  padding: 40px 20px;
+  backdrop-filter: blur(10px);
+}
+.modal-terms-overlay.active { display: flex; align-items: flex-start; justify-content: center; }
+.modal-terms-box {
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  max-width: 640px;
+  width: 100%;
+  padding: 48px;
+  position: relative;
+  animation: modalIn 0.3s ease;
+  margin-top: 20px;
+}
+.modal-terms-close {
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: none; color: var(--dim);
+  font-size: 18px; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+  transition: color 0.2s;
+}
+.modal-terms-close:hover { color: var(--white); }
+.modal-terms-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 8px;
+  letter-spacing: 3px; color: var(--green); margin-bottom: 16px;
+}
+.modal-terms-title {
+  font-family: 'Playfair Display', serif; font-size: 26px;
+  font-weight: 400; color: var(--white); margin-bottom: 28px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--line);
+}
+.modal-terms-body {
+  font-size: 14px; color: rgba(232,228,218,0.55);
+  line-height: 1.85;
+}
+.modal-terms-body h4 {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; color: var(--muted); margin: 20px 0 8px;
+}
+.modal-terms-body p { margin-bottom: 12px; }
+.modal-terms-body strong { color: rgba(232,228,218,0.75); font-weight: 400; }
+</style>
+
+<div class="modal-terms-overlay" id="modalCondiciones">
+  <div class="modal-terms-box">
+    <button class="modal-terms-close" onclick="cerrarModalTerms('modalCondiciones')">✕</button>
+    <div class="modal-terms-tag">TÉRMINOS Y CONDICIONES</div>
+    <div class="modal-terms-title">Condiciones de Uso</div>
+    <div class="modal-terms-body">
+      <h4>NATURALEZA DEL SERVICIO</h4>
+      <p>Epimeleia actúa como <strong>notario digital de conducta ambiental corporativa</strong>. No es un auditor, no es un organismo de control, no actúa en nombre de ningún gobierno ni entidad reguladora. Es un protocolo neutral que registra datos satelitales de forma permanente e inalterable en blockchain Polygon.</p>
+
+      <h4>PERMANENCIA E IRREVOCABILIDAD</h4>
+      <p>Todo registro grabado en blockchain Polygon es <strong>permanente e inalterable</strong>. No existe mecanismo de borrado. El historial de certificaciones, huecos de opacidad y sellos de excelencia no pueden modificarse bajo ninguna circunstancia.</p>
+
+      <h4>RESPONSABILIDAD DE LOS DATOS</h4>
+      <p>La responsabilidad de la veracidad de los datos declarados al registro es <strong>100% de la empresa</strong>. Si los datos declarados no coinciden con lo que el satélite observa, el registro lo refleja permanentemente.</p>
+
+      <h4>MEMBRESÍA Y PRECIOS</h4>
+      <p>La membresía es mensual. El primer mes es sin costo. A partir del segundo mes se cobra la membresía según el plan contratado. <strong>Los precios pueden modificarse sin previo aviso</strong> por decisión del equipo de Epimeleia. Los cambios aplican a nuevas membresías y renovaciones.</p>
+
+      <h4>MAL USO DEL PROTOCOLO</h4>
+      <p>El uso fraudulento, la manipulación de datos o el incumplimiento de estos términos faculta al equipo de Epimeleia a dar de baja inmediata al causante, <strong>sin reembolso</strong> y con registro permanente on-chain del evento y su causa.</p>
+
+      <h4>DISPONIBILIDAD</h4>
+      <p>Epimeleia opera sobre infraestructura blockchain Polygon Mainnet y satélites públicos ESA. No garantiza disponibilidad ininterrumpida del servicio ante casos de fuerza mayor técnica o climática. Los huecos de opacidad por causa de fuerza mayor quedan registrados con su causa acreditada.</p>
+
+      <h4>JURISDICCIÓN</h4>
+      <p>Las transacciones se ejecutan en Polygon Mainnet (Chain ID: 137). Son irreversibles por naturaleza de la tecnología blockchain.</p>
+
+      <h4>CONTACTO</h4>
+      <p>Consultas: <strong>info@epimeleia.world</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-terms-overlay" id="modalPrivacidad">
+  <div class="modal-terms-box">
+    <button class="modal-terms-close" onclick="cerrarModalTerms('modalPrivacidad')">✕</button>
+    <div class="modal-terms-tag">POLÍTICA DE PRIVACIDAD</div>
+    <div class="modal-terms-title">Privacidad</div>
+    <div class="modal-terms-body">
+      <h4>DATOS PÚBLICOS EN BLOCKCHAIN</h4>
+      <p>El <strong>estado de certificación</strong> y el <strong>nivel de validación</strong> de cada activo son visibles públicamente en blockchain Polygon. Cualquier persona puede verificarlos en Blockscout.</p>
+
+      <h4>DATOS PRIVADOS</h4>
+      <p>Los siguientes datos son <strong>estrictamente privados</strong> y solo accesibles para el equipo de Epimeleia y el owner del activo: coordenadas GPS, email corporativo, razón social, saldo de membresía, historial de pagos y datos de contacto.</p>
+
+      <h4>EMAIL CORPORATIVO</h4>
+      <p>El email corporativo se almacena únicamente como un hash criptográfico on-chain. El email real <strong>nunca se graba en blockchain</strong>. Solo el equipo de Epimeleia tiene acceso al email real para el envío de informes trimestrales y alertas.</p>
+
+      <h4>DATOS DE LA CONVERSACIÓN CON EPI</h4>
+      <p>Las conversaciones con el agente EPI son procesadas por la API de Anthropic bajo sus propios términos de privacidad. Epimeleia no almacena el contenido de las conversaciones entre sesiones.</p>
+
+      <h4>NO VENDEMOS DATOS</h4>
+      <p>Epimeleia <strong>no vende, no cede ni comercializa</strong> datos de sus clientes a terceros bajo ninguna circunstancia.</p>
+
+      <h4>INFORMES TRIMESTRALES</h4>
+      <p>Al cierre de cada trimestre el sistema envía automáticamente un informe al email corporativo registrado. Este proceso es automático e informa exclusivamente sobre el activo del destinatario.</p>
+
+      <h4>CONTACTO</h4>
+      <p>Consultas sobre privacidad: <strong>info@epimeleia.world</strong></p>
+    </div>
+  </div>
+</div>
+
+<script>
+function abrirModal(id) {
+  if (id === 'condiciones') {
+    document.getElementById('modalCondiciones').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  } else if (id === 'privacidad') {
+    document.getElementById('modalPrivacidad').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function cerrarModalTerms(id) {
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalCondiciones').addEventListener('click', function(e) {
+  if (e.target === this) cerrarModalTerms('modalCondiciones');
+});
+document.getElementById('modalPrivacidad').addEventListener('click', function(e) {
+  if (e.target === this) cerrarModalTerms('modalPrivacidad');
+});
+</script>
+
 </body>
 </html>
